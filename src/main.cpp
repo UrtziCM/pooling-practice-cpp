@@ -11,6 +11,7 @@ public:
 int main(void)
 {
     Pool<Human> p(20);
+    std::cout << "Check all the objects and set as using." << std::endl;
     for (int i = 0; i < p.size(); i++)
     {
         std::cout << (p.getNextObject()) << std::endl;
