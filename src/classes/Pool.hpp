@@ -12,7 +12,7 @@ public:
     ~Pool();
 
     T *getNextObject();
-    int getInactiveObjectAtChunk(unsigned int index);
+    int getInactiveObjectAtChunk(unsigned int chunkIndex);
     int size();
 
     void setUnused(unsigned int index);
@@ -49,18 +49,16 @@ T *Pool<T>::getNextObject()
 }
 
 template <typename T>
-int Pool<T>::getInactiveObjectAtChunk(unsigned int index)
+int Pool<T>::getInactiveObjectAtChunk(unsigned int chunkIndex)
 {
-    // Get char (bool group) at index (0 -> 15 1st group, 16 -> 32 2nd group etc)
-    int boolGroupIndex = index % 16;
     // Check
     for (int i = 0; i < 16; i++) // 16 because we have 16 per chunk ALWAYS
     {
         unsigned short boolMask = 0b1 << i;
-        if (!(bool)(availableItems[boolGroupIndex] & boolMask))
+        if (!(bool)(availableItems[chunkIndex] & boolMask))
         {
-            availableItems[boolGroupIndex] += boolMask;
-            return index + i;
+            availableItems[chunkIndex] += boolMask;
+            return chunkIndex + i;
         }
     }
 
