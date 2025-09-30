@@ -9,6 +9,7 @@ private:
     int lastFoundIndex;
 
     int getInactiveObjectAtChunk(unsigned int chunkIndex);
+    int getChunkFromItemIndex(unsigned int itemIndex);
 
 public:
     Pool(unsigned int size);
@@ -21,6 +22,8 @@ public:
 };
 
 /* DEFINITION FOR TEMPLATING */
+
+// CONSTRUCTORS
 
 #include <cmath>
 
@@ -38,16 +41,19 @@ Pool<T>::~Pool() {}
 template <typename T>
 T *Pool<T>::getNextObject()
 {
-    for (int i = 0; i < availableItems.size(); i++)
+    for (int i = getChunkFromItemIndex(lastFoundIndex); i < availableItems.size(); i++) // We start from the chunk that the last found item was found for faster search.
     {
         int foundInactiveObjectIndex = getInactiveObjectAtChunk(i);
         if (foundInactiveObjectIndex != -1)
         {
+            lastFoundIndex = foundInactiveObjectIndex;
             return &(pool[foundInactiveObjectIndex]);
         }
     }
     return nullptr;
 }
+
+// PRIVATE METHODS
 
 template <typename T>
 int Pool<T>::getInactiveObjectAtChunk(unsigned int chunkIndex)
@@ -65,6 +71,14 @@ int Pool<T>::getInactiveObjectAtChunk(unsigned int chunkIndex)
 
     return -1;
 }
+
+template <typename T>
+inline int Pool<T>::getChunkFromItemIndex(unsigned int itemIndex)
+{
+    return itemIndex / 16;
+}
+
+// PUBLIC METHODS
 
 template <typename T>
 int Pool<T>::size()
