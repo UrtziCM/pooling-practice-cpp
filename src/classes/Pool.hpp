@@ -23,7 +23,6 @@ public:
 /* DEFINITION FOR TEMPLATING */
 
 #include <cmath>
-#include <iostream>
 
 template <typename T>
 Pool<T>::Pool(unsigned int size)
