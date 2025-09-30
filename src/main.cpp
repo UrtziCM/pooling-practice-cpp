@@ -16,7 +16,9 @@ int main(void)
     {
         std::cout << (p.getNextObject()) << std::endl;
     }
-    p.setUnused(0);
     std::cout << "Post full check:" << std::endl;
+    std::cout << "Set first as unused" << std::endl;
+    p.setUnused(0);
+    std::cout << "Check if next is that first" << std::endl;
     std::cout << p.getNextObject() << std::endl;
 }
