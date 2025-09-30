@@ -6,13 +6,15 @@ class Pool
 private:
     std::vector<T> pool;
     std::vector<unsigned short> availableItems;
+    int lastFoundIndex;
+
+    int getInactiveObjectAtChunk(unsigned int chunkIndex);
 
 public:
     Pool(unsigned int size);
     ~Pool();
 
     T *getNextObject();
-    int getInactiveObjectAtChunk(unsigned int chunkIndex);
     int size();
 
     void setUnused(unsigned int index);
